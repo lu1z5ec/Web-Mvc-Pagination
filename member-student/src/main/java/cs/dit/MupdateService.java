@@ -28,7 +28,7 @@ public class MupdateService implements MemberService {
 			
 			//4. dto를 MemberDao에 적당한 메소드를 호출하여 데이터베이스에 입력
 			 
-			dao.insert(dto);
+			dao.update(dto);
 			
 
 	}

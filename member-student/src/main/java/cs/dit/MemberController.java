@@ -43,6 +43,16 @@ public class MemberController extends HttpServlet {
 			viewPage = "/WEB-INF/view/index.jsp";
 		}
 		
+		//insert
+		else if(com !=null && com.equals("insertForm")) {
+			viewPage = "/WEB-INF/view/insertForm.jsp";
+		}
+		else if(com !=null && com.equals("insert")) {
+			MemberService service = new MinsertService();
+			service.execute(request, response);
+			viewPage = "list.do";
+		}
+		
 		//update
 		else if(com !=null && com.equals("updateForm")) {
 			MemberService service = new MListService();
@@ -55,15 +65,6 @@ public class MemberController extends HttpServlet {
 			viewPage ="list.do";
 		}
 		
-		//insert
-		else if(com !=null && com.equals("insertForm")) {
-			viewPage = "/WEB-INF/view/insertForm.jsp";
-		}
-		else if(com !=null && com.equals("insert")) {
-			MemberService service = new MinsertService();
-			service.execute(request, response);
-			viewPage = "list.do";
-		}
 		
 		//update
 		else if(com !=null && com.equals("delete")) {
@@ -76,6 +77,7 @@ public class MemberController extends HttpServlet {
 			service.execute(request, response);
 			viewPage ="list.do";
 		}
+		
 		RequestDispatcher rd = request.getRequestDispatcher(viewPage);
 		rd.forward(request, response);
 		

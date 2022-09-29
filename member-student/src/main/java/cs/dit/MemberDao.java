@@ -58,15 +58,18 @@ public class MemberDao {
 		}
 	}
 	
-	public ArrayList<MemberDto> list(){
-		String sql = "SELECT * FROM member";
+	public ArrayList<MemberDto> list(int page, int numOfRecords){
+		String sql = "SELECT id,pwd,name,email,joinDate FROM member order by id desc LIMIT ?, ?";
 		ArrayList<MemberDto> dtos = new ArrayList<MemberDto>();
 		
 		try (	Connection con = getConnection();
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql);
-			)
+				PreparedStatement pstmt = con.prepareStatement(sql);)
 			{
+				pstmt.setInt(1,(page-1)*numOfRecords);
+				pstmt.setInt(2,numOfRecords);
+			
+				try(ResultSet rs = pstmt.executeQuery();)
+				{
 				while(rs.next()) {
 					MemberDto dto = new MemberDto();
 					
@@ -81,13 +84,33 @@ public class MemberDao {
 					dtos.add(dto);
 					
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			} catch (Exception e) {
+				e.printStackTrace();}
 		return dtos;
-	}
+		}
 	
+	//record()
+		public int recordCount() {
+			int count = 0;
+			String sql = "select count(id) from member";
+			try (	Connection con = getConnection();
+					Statement stmt = con.createStatement();
+					ResultSet rs = stmt.executeQuery(sql);
+				)
+				{		
+					rs.next();
+						count=rs.getInt(1);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			return count;
+		}
+		
 	public MemberDto selectOne(String id) {
 		String sql = "SELECT * FROM member WHERE id =?";
 		MemberDto dto = new MemberDto();

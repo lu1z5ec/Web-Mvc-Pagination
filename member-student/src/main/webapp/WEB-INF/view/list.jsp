@@ -5,11 +5,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix ="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix ="fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>  
-<%
-	MemberDao dao = new MemberDao();
-	ArrayList<MemberDto> dtos = dao.list();
-	pageContext.setAttribute("dtos", dtos);
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,6 +43,42 @@
 	<br>
 	<input type="button" value ="홈으로" onclick ="location.href='index.do'">
 	<input type="button" value ="멤버 등록" onclick ="location.href='insertForm.do'">
-	</div>	
+	
+		
+	<input type="button" value = "다음" onclick = "location.href = 'list.do?p=${p+1}'">
+			<div class="d-flex justify-content-center">
+		 
+		  <ul class="pagination">
+				<c:if test = "${startNum > 1}">          
+		    	<li class="page-item"><a class="page-link" href="list.do?=p${startNum-1}">Previous</a></li>
+				</c:if>	    
+				
+		    <c:if test = "${startNum <=1}">          
+		    	<li class="page-item"><a class="page-link" href="#" style = "color : gray;" onclick="alert('첫 페이지 입니다.')">Previous</a></li>
+				</c:if>	
+				    
+				<c:forEach var = "i" begin = "0" end = "4" step = "1">
+		   	<c:if test = "${startNum + i <= lastNum}">
+		   		<c:if test = "${startNum+i == p }">
+		   			<li class = "page-item active"><a class = "page-link" href = "list.do?p=${startNum+i }">${startNum+i }</a></li>
+		   		</c:if>
+		   		
+		   		<c:if test = "${startNum+i !=p }">
+		   			<li class = "page-item"><a class = "page-link" href = "list.do?p=${startNum+i }">${startNum+i }</a></li>
+		   		</c:if>
+		   	</c:if>
+		    </c:forEach>
+		    
+		    
+		    <c:if test = "${startNum+5<=lastNum }">
+		   		<li class = "page-item"><a class = "page-link" href = "list.do?p=${startNum+5 }">Next</a></li>
+		   	</c:if>
+		   	   
+			 <c:if test = "${startNum+5>lastNum }">
+			   		<li class = "page-item"><a class = "page-link" onclick = "alert('다음 페이지가 없습니다.');" href = "#">Next</a></li>
+			   </c:if>
+		  </ul>
+		</div>
+	
 </body>
 </html>
