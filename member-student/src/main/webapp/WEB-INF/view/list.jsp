@@ -43,18 +43,21 @@
 	<br>
 	<input type="button" value ="홈으로" onclick ="location.href='index.do'">
 	<input type="button" value ="멤버 등록" onclick ="location.href='insertForm.do'">
-	
-		
 	<input type="button" value = "다음" onclick = "location.href = 'list.do?p=${p+1}'">
-			<div class="d-flex justify-content-center">
-		 
+		<!-- 현재페이지/전체페이지 출력 -->
+	  <div class = "d-flex-justify-content-end">
+	  	<span>${p}</span>&nbsp;&nbsp;/ ${lastNum}pages
+	  </div>
+		<!-- 페이지 네비게이션의 첫부분 -->
+		<div class="d-flex justify-content-center">
 		  <ul class="pagination">
+		  
 				<c:if test = "${startNum > 1}">          
 		    	<li class="page-item"><a class="page-link" href="list.do?=p${startNum-1}">Previous</a></li>
 				</c:if>	    
 				
 		    <c:if test = "${startNum <=1}">          
-		    	<li class="page-item"><a class="page-link" href="#" style = "color : gray;" onclick="alert('첫 페이지 입니다.')">Previous</a></li>
+		    	<li class="page-item"><a class="page-link" href="#" style = "color : gray;" onclick="alert('이전 페이지가 없습니다.')">Previous</a></li>
 				</c:if>	
 				    
 				<c:forEach var = "i" begin = "0" end = "4" step = "1">
@@ -62,7 +65,6 @@
 		   		<c:if test = "${startNum+i == p }">
 		   			<li class = "page-item active"><a class = "page-link" href = "list.do?p=${startNum+i }">${startNum+i }</a></li>
 		   		</c:if>
-		   		
 		   		<c:if test = "${startNum+i !=p }">
 		   			<li class = "page-item"><a class = "page-link" href = "list.do?p=${startNum+i }">${startNum+i }</a></li>
 		   		</c:if>
@@ -70,13 +72,14 @@
 		    </c:forEach>
 		    
 		    
-		    <c:if test = "${startNum+5<=lastNum }">
-		   		<li class = "page-item"><a class = "page-link" href = "list.do?p=${startNum+5 }">Next</a></li>
+		    <c:if test = "${startNum+numOfPages<=lastNum }">
+		   		<li class = "page-item"><a class = "page-link" href = "list.do?p=${startNum+numOfPages }">Next</a></li>
 		   	</c:if>
 		   	   
-			 <c:if test = "${startNum+5>lastNum }">
-			   		<li class = "page-item"><a class = "page-link" onclick = "alert('다음 페이지가 없습니다.');" href = "#">Next</a></li>
-			   </c:if>
+			 <c:if test = "${startNum+numOfPages>lastNum }">
+			   		<li class = "page-item"><a class = "page-link" onclick = "alert('다음페이지가 없습니다.');" href = "#">Next</a></li>
+			 </c:if>
+			   	
 		  </ul>
 		</div>
 	
