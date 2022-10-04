@@ -73,7 +73,7 @@
 		    
 		    
 		    <c:if test = "${startNum+numOfPages<=lastNum }">
-		   		<li class = "page-item"><a class = "page-link" href = "list.do?p=${startNum+numOfPages }">Next</a></li>
+		   		<li class = "page-item"><a class = "page-link" href = "list.do?p=${startNum+5 }">Next</a></li>
 		   	</c:if>
 		   	   
 			 <c:if test = "${startNum+numOfPages>lastNum }">
